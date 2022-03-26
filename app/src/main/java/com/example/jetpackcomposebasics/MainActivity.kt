@@ -46,7 +46,7 @@ private fun MyApp() {
     when(shouldShowScreen){
         "State" -> StateScreen()
         "Layouts" -> Layouts()
-//        "Functions" -> Functions()
+//        "Functions" -> FunctionOne("Funktiot!")
         else -> Buttons(OnStateButtonClicked = {shouldShowScreen = "State"},
             OnLayoutsButtonClicked = {shouldShowScreen = "Layouts"},
             OnFunctionsButtonClicked = {shouldShowScreen = "Functions"})
