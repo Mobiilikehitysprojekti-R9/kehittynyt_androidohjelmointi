@@ -12,7 +12,8 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
                 JetpackComposeBasicsTheme {
                     Surface(color = Color.LightGray) {
                         Column {
-                            Buttons()
+                            MyApp()
                         }
                     }
                 }
@@ -39,20 +40,34 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
+@Composable
+private fun MyApp() {
+    var shouldShowScreen by remember { mutableStateOf("Buttons") }
+    when(shouldShowScreen){
+        "State" -> StateScreen()
+        "Layouts" -> Layouts()
+//        "Functions" -> Functions()
+        else -> Buttons(OnStateButtonClicked = {shouldShowScreen = "State"},
+            OnLayoutsButtonClicked = {shouldShowScreen = "Layouts"},
+            OnFunctionsButtonClicked = {shouldShowScreen = "Functions"})
+    }
+}
 
 @Composable
-private fun Buttons() {
+private fun Buttons(
+    OnStateButtonClicked: () -> Unit,
+    OnLayoutsButtonClicked: () -> Unit,
+    OnFunctionsButtonClicked: () -> Unit) {
     /*val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "Buttons") {
         composable(route="Buttons") { Buttons(navController) }
         composable(route="Layouts") { Layouts() }
 
     }*/
-Column (){
-    Text(text = "Jetpack Compose Basics", style = typography.h3, textAlign = TextAlign.Center)
-    Text(text = "Buttons", style = typography.h5, fontStyle = FontStyle.Italic, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold)
-}
+    Column (){
+        Text(text = "Jetpack Compose Basics", style = typography.h3, textAlign = TextAlign.Center)
+        Text(text = "Buttons", style = typography.h5, fontStyle = FontStyle.Italic, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold)
+    }
 
     Column {
         val mainButtonColor = ButtonDefaults.buttonColors(
@@ -64,7 +79,7 @@ Column (){
                 Text(text = "This is a basic button ")
                 Text(text = "with changed background color ")
             }
-            Button(colors = mainButtonColor,onClick = {}, modifier = Modifier.padding(8.dp)) {
+            Button(colors = mainButtonColor,onClick = OnLayoutsButtonClicked, modifier = Modifier.padding(8.dp)) {
                 Text(text = "Layouts")
             }
         }
@@ -72,7 +87,7 @@ Column (){
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = "This is a text button ")
             }
-            TextButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(8.dp)) {
+            TextButton(onClick = OnFunctionsButtonClicked, modifier = Modifier.padding(8.dp)) {
                 Text(text = "Functions")
             }
         }
@@ -82,7 +97,7 @@ Column (){
                 Text(text = "This is a elevated button ")
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = OnStateButtonClicked,
                 modifier = Modifier.padding(8.dp),
                 elevation = ButtonDefaults.elevation()
             ) {
@@ -149,7 +164,7 @@ fun Layouts() {
 fun DefaultPreview() {
     JetpackComposeBasicsTheme {
         Column {
-            Buttons()
+            Buttons(OnStateButtonClicked = {}, {}, {})
         }
     }
 }
