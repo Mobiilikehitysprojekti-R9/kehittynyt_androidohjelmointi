@@ -15,7 +15,10 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun StateScreen(names: List<String> = List(1000) { "$it" } ) {
+fun StateScreen(OnBackButtonClicked: () -> Unit, names: List<String> = List(1000) { "$it" }) {
+    Button(onClick = OnBackButtonClicked,  modifier = Modifier.padding(8.dp)) {
+       Text("Back")
+    }
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
         items(items = names) { name ->
             Greeting(name = name)

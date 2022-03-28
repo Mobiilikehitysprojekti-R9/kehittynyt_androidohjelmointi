@@ -42,9 +42,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MyApp() {
-    var shouldShowScreen by remember { mutableStateOf("Buttons") }
+    var shouldShowScreen by rememberSaveable { mutableStateOf("Buttons") }
     when(shouldShowScreen){
-        "State" -> StateScreen()
+        "State" -> StateScreen(OnBackButtonClicked = {shouldShowScreen = "Button"})
         "Layouts" -> Layouts()
 //        "Functions" -> FunctionOne("Funktiot!")
         else -> Buttons(OnStateButtonClicked = {shouldShowScreen = "State"},
