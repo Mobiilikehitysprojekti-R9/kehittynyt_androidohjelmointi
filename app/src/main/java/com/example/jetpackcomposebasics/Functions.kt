@@ -26,25 +26,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposebasics.ui.theme.JetpackComposeBasicsTheme
 
-class Functions : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            JetpackComposeBasicsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    FunctionOne("Funktiot")
-                }
-            }
-        }
-    }
-}
+//class Functions : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            JetpackComposeBasicsTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colors.background
+//                ) {
+//                    FunctionOne("Funktiot")
+//                }
+//            }
+//        }
+//    }
+//}
 
 @Composable
-fun FunctionOne(name: String) {
+fun FunctionOne(name: String, OnBackButtonClicked: () -> Unit) {
+    Button(onClick = OnBackButtonClicked,  modifier = Modifier.padding(8.dp)) {
+        Text("Back")
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
@@ -159,6 +162,6 @@ fun IconFunction() {
 @Composable
 fun DefaultPreview2() {
     JetpackComposeBasicsTheme {
-        FunctionOne("Funktiot")
+        FunctionOne("Funktiot", {})
     }
 }
