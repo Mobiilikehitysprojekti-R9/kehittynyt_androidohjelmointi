@@ -44,20 +44,26 @@ class MainActivity : ComponentActivity() {
 private fun MyApp() {
     var shouldShowScreen by rememberSaveable { mutableStateOf("Buttons") }
     when(shouldShowScreen){
-        "State" -> StateScreen(OnBackButtonClicked = {shouldShowScreen = "Button"})
-        "Layouts" -> Layouts()
+        "State" -> StateScreen(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
+        "LayoutsRow" -> MyRow(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
+        "LayoutsColumn" -> MyColumn(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
+        "LayoutsBox" -> MyBox(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
 //        "Functions" -> FunctionOne("Funktiot!")
         else -> Buttons(OnStateButtonClicked = {shouldShowScreen = "State"},
-            OnLayoutsButtonClicked = {shouldShowScreen = "Layouts"},
-            OnFunctionsButtonClicked = {shouldShowScreen = "Functions"})
+            OnFunctionsButtonClicked = {shouldShowScreen = "Functions"},
+            OnRowButtonClicked = {shouldShowScreen = "LayoutsRow"},
+            OnColumnButtonClicked = {shouldShowScreen = "LayoutsColumn"},
+            OnBoxButtonClicked = {shouldShowScreen = "LayoutsBox"})
     }
 }
 
 @Composable
 private fun Buttons(
     OnStateButtonClicked: () -> Unit,
-    OnLayoutsButtonClicked: () -> Unit,
-    OnFunctionsButtonClicked: () -> Unit) {
+    OnFunctionsButtonClicked: () -> Unit,
+    OnRowButtonClicked: () -> Unit,
+    OnColumnButtonClicked: () -> Unit,
+    OnBoxButtonClicked: () -> Unit, ) {
     /*val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "Buttons") {
         composable(route="Buttons") { Buttons(navController) }
@@ -79,16 +85,16 @@ private fun Buttons(
                 Text(text = "This is a basic button ")
                 Text(text = "with changed background color ")
             }
-            Button(colors = mainButtonColor,onClick = OnLayoutsButtonClicked, modifier = Modifier.padding(8.dp)) {
-                Text(text = "Layouts")
+            Button(colors = mainButtonColor,onClick = OnFunctionsButtonClicked, modifier = Modifier.padding(8.dp)) {
+                Text(text = "Functions")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = "This is a text button ")
             }
-            TextButton(onClick = OnFunctionsButtonClicked, modifier = Modifier.padding(8.dp)) {
-                Text(text = "Functions")
+            TextButton(onClick = OnStateButtonClicked, modifier = Modifier.padding(8.dp)) {
+                Text(text = "State")
             }
         }
 
@@ -97,11 +103,11 @@ private fun Buttons(
                 Text(text = "This is a elevated button ")
             }
             Button(
-                onClick = OnStateButtonClicked,
+                onClick = OnRowButtonClicked,
                 modifier = Modifier.padding(8.dp),
                 elevation = ButtonDefaults.elevation()
             ) {
-                Text(text = "State")
+                Text(text = "Layouts Row")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
@@ -109,11 +115,11 @@ private fun Buttons(
                 Text(text = "This is a rounded button ")
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick =  OnColumnButtonClicked ,
                 modifier = Modifier.padding(8.dp),
                 shape = RoundedCornerShape(20.dp)
             ) {
-                Text(text = "Rounded")
+                Text(text = "Layouts Column")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
@@ -121,11 +127,11 @@ private fun Buttons(
                 Text(text = "This is a outlined button ")
             }
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick =  OnBoxButtonClicked ,
                 border = BorderStroke(2.dp, Color.Yellow),
                 modifier = Modifier.padding(8.dp)
             ) {
-                Text(text = "Outlined")
+                Text(text = "Layouts Box")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
@@ -164,7 +170,7 @@ fun Layouts() {
 fun DefaultPreview() {
     JetpackComposeBasicsTheme {
         Column {
-            Buttons(OnStateButtonClicked = {}, {}, {})
+            Buttons({}, {}, {}, {}, {})
         }
     }
 }
