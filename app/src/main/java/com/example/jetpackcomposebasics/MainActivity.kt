@@ -12,7 +12,8 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
                 JetpackComposeBasicsTheme {
                     Surface(color = Color.LightGray) {
                         Column {
-                            Buttons()
+                            MyApp()
                         }
                     }
                 }
@@ -39,20 +40,40 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
+@Composable
+private fun MyApp() {
+    var shouldShowScreen by rememberSaveable { mutableStateOf("Buttons") }
+    when(shouldShowScreen){
+        "State" -> StateScreen(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
+        "LayoutsRow" -> MyRow(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
+        "LayoutsColumn" -> MyColumn(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
+        "LayoutsBox" -> MyBox(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
+//        "Functions" -> FunctionOne("Funktiot!")
+        else -> Buttons(OnStateButtonClicked = {shouldShowScreen = "State"},
+            OnFunctionsButtonClicked = {shouldShowScreen = "Functions"},
+            OnRowButtonClicked = {shouldShowScreen = "LayoutsRow"},
+            OnColumnButtonClicked = {shouldShowScreen = "LayoutsColumn"},
+            OnBoxButtonClicked = {shouldShowScreen = "LayoutsBox"})
+    }
+}
 
 @Composable
-private fun Buttons() {
+private fun Buttons(
+    OnStateButtonClicked: () -> Unit,
+    OnFunctionsButtonClicked: () -> Unit,
+    OnRowButtonClicked: () -> Unit,
+    OnColumnButtonClicked: () -> Unit,
+    OnBoxButtonClicked: () -> Unit, ) {
     /*val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "Buttons") {
         composable(route="Buttons") { Buttons(navController) }
         composable(route="Layouts") { Layouts() }
 
     }*/
-Column (){
-    Text(text = "Jetpack Compose Basics", style = typography.h3, textAlign = TextAlign.Center)
-    Text(text = "Buttons", style = typography.h5, fontStyle = FontStyle.Italic, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold)
-}
+    Column (){
+        Text(text = "Jetpack Compose Basics", style = typography.h3, textAlign = TextAlign.Center)
+        Text(text = "Buttons", style = typography.h5, fontStyle = FontStyle.Italic, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold)
+    }
 
     Column {
         val mainButtonColor = ButtonDefaults.buttonColors(
@@ -64,16 +85,16 @@ Column (){
                 Text(text = "This is a basic button ")
                 Text(text = "with changed background color ")
             }
-            Button(colors = mainButtonColor,onClick = {}, modifier = Modifier.padding(8.dp)) {
-                Text(text = "Layouts")
+            Button(colors = mainButtonColor,onClick = OnFunctionsButtonClicked, modifier = Modifier.padding(8.dp)) {
+                Text(text = "Functions")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = "This is a text button ")
             }
-            TextButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(8.dp)) {
-                Text(text = "Functions")
+            TextButton(onClick = OnStateButtonClicked, modifier = Modifier.padding(8.dp)) {
+                Text(text = "State")
             }
         }
 
@@ -82,11 +103,11 @@ Column (){
                 Text(text = "This is a elevated button ")
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = OnRowButtonClicked,
                 modifier = Modifier.padding(8.dp),
                 elevation = ButtonDefaults.elevation()
             ) {
-                Text(text = "State")
+                Text(text = "Layouts Row")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
@@ -94,11 +115,11 @@ Column (){
                 Text(text = "This is a rounded button ")
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick =  OnColumnButtonClicked ,
                 modifier = Modifier.padding(8.dp),
                 shape = RoundedCornerShape(20.dp)
             ) {
-                Text(text = "Rounded")
+                Text(text = "Layouts Column")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
@@ -106,11 +127,11 @@ Column (){
                 Text(text = "This is a outlined button ")
             }
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick =  OnBoxButtonClicked ,
                 border = BorderStroke(2.dp, Color.Yellow),
                 modifier = Modifier.padding(8.dp)
             ) {
-                Text(text = "Outlined")
+                Text(text = "Layouts Box")
             }
         }
         Row(modifier = Modifier.padding(20.dp)) {
@@ -149,7 +170,7 @@ fun Layouts() {
 fun DefaultPreview() {
     JetpackComposeBasicsTheme {
         Column {
-            Buttons()
+            Buttons({}, {}, {}, {}, {})
         }
     }
 }

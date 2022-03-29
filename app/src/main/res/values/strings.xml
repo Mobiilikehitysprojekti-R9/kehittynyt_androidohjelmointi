@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">JetpackComposeBasics</string>
+    <string name="first">first</string>
+    <string name="second">second</string>
+    <string name="third">third</string>
     <string name="title_activity_functions">Functions</string>
 </resources>
