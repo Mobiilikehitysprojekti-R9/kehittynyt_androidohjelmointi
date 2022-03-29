@@ -44,11 +44,11 @@ class MainActivity : ComponentActivity() {
 private fun MyApp() {
     var shouldShowScreen by rememberSaveable { mutableStateOf("Buttons") }
     when(shouldShowScreen){
+        "Functions" -> FunctionOne("Funktiot!", OnBackButtonClicked = {shouldShowScreen = "Buttons"})
         "State" -> StateScreen(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
         "LayoutsRow" -> MyRow(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
         "LayoutsColumn" -> MyColumn(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
         "LayoutsBox" -> MyBox(OnBackButtonClicked = {shouldShowScreen = "Buttons"})
-//        "Functions" -> FunctionOne("Funktiot!")
         else -> Buttons(OnStateButtonClicked = {shouldShowScreen = "State"},
             OnFunctionsButtonClicked = {shouldShowScreen = "Functions"},
             OnRowButtonClicked = {shouldShowScreen = "LayoutsRow"},
